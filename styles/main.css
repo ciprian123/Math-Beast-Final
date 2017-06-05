@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  text-align: center;
+}
+
+h4 {
+  margin-left: -40px;
+}
+
+input, label {
+  color: white;
+}
+
+#convert, #convert_t {
+  position: relative;
+  top: 30px;
+  text-align: center;
+  z-index: 999;
+}
+
+#rez_conv, #rez_conv_t {
+  position: relative;
+  top: 60px;
+}
