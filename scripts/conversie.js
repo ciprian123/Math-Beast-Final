@@ -1,29 +1,38 @@
 function conversie() {
+  function posibil_numar_intreg(value) {
+    if (value[0] == 0 && value.length > 1)
+      return false;
+
+    for (let i = 0; i < value.length; ++i)
+      if (value[i] < '0' || value[i] > '9')
+        return false;
+    return true;
+  }
+
   function getNumber() {
-    let number = $("#numar").val();
-    if (isNaN(number) || number <= 0 || number - Math.floor(number) !== 0)
+    let number = $("#numar").val().toString();
+    if (!posibil_numar_intreg(number) || number <= 0 || number - Math.floor(number) !== 0)
       return -1;
     else
       return parseInt(number);
   }
 
   function getBase() {
-    let base = $("#baza").val();
-    if (isNaN(base) || base <= 0 || base - Math.floor(base) !== 0)
+    let base = $("#baza").val().toString();
+    if (!posibil_numar_intreg(base) || base <= 0 || base - Math.floor(base) !== 0)
       return -1;
     else
       return parseInt(base);
   }
 
   function conversie(numar, baza) {
-    let nr = 0, p = 1, aux = numar;
-
-    while (aux > 0) {
-      nr = nr + p * (aux % baza);
-      p *= 10;
-      aux = parseInt(aux / baza);
+    let text = "";
+    while (numar > 0) {
+      text += ((numar % baza).toString());
+      numar = parseInt(numar / baza);
     }
-    return nr;
+
+    $("#conv_sol").focus().val(text.split("").reverse().join(""));
   }
 
   function conversie_b11(numar) {
@@ -134,17 +143,19 @@ function conversie() {
     $("#conv_sol").focus().val(text.split("").reverse().join(""));
   }
 
-
   let base = getBase();
   let number = getNumber();
-  if (number === -1) {
+  if (number == -1) {
     $("#conv_sol").focus().val("Scrie un număr natural nenul!");
+    $("#numar").focus().val("");
   } else if (number === 1) {
     $("#conv_sol").focus().val("1");
   }
   else {
-    if (base < 2 || base > 16)
+    if (base < 2 || base > 16) {
       $("#conv_sol").focus().val("Baza este incorecta!");
+      $("#baza").focus().val("");
+    }
     else {
       if (base === 16)
         conversie_b16(number);
@@ -159,7 +170,7 @@ function conversie() {
       else if (base === 11)
         conversie_b11(number);
       else
-        $("#conv_sol").focus().val(conversie(number, base));
+       conversie(number, base);
     }
   }
 }

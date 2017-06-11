@@ -32,30 +32,46 @@ function conversie_t() {
       return parseFloat(temp);
   }
 
+  function posibil_numar(value) {
+    if (value[0] == 0 && value.length > 1)
+      return false;
+
+    let nr_points = 0;
+    for (let i = 0; i < value.length; ++i)
+      if (value[i] == '.')
+        nr_points++;
+      else if (value[i] < '0' || value[i] > '9')
+        return false;
+      return ((nr_points == 1 && value[value.length - 1] != '.') || !nr_points)
+  }
+
   let value_to = $("#to").val().toString();
   let value_from = $("#from").val().toString();
   let temperature = getTemperature();
+  let v = $("#t_din").val().toString();
 
-  if (temperature == "Gol")
+  if (temperature == "Gol" || !posibil_numar(v)) {
     $("#conv_sol_t").focus().val("Introduceti un numar...");
+    $("#t_din").focus().val("");
+  }
   else {
     if (value_from == 1 && value_to == 1)
-      $("#conv_sol_t").focus().val(celsius_to_kelvin(parseFloat($("#t_din").val())).toFixed(2));
+      $("#conv_sol_t").focus().val(celsius_to_kelvin(v));
     else if (value_from == 1 && value_to == 2)
-      $("#conv_sol_t").focus().val(parseFloat($("#t_din").val()));
+      $("#conv_sol_t").focus().val(v);
     else if (value_from == 1 && value_to == 3)
-      $("#conv_sol_t").focus().val(celsius_to_fahrenheit(parseFloat($("#t_din").val())).toFixed(2));
+      $("#conv_sol_t").focus().val(celsius_to_fahrenheit(v));
     else if(value_from == 2 && value_to == 1)
-      $("#conv_sol_t").focus().val(parseFloat($("#t_din").val()));
+      $("#conv_sol_t").focus().val(v);
     else if (value_from == 2 && value_to == 2)
-      $("#conv_sol_t").focus().val(parseFloat(kelvin_to_celsius($("#t_din").val())).toFixed(2));
+      $("#conv_sol_t").focus().val(kelvin_to_celsius(v));
     else if (value_from == 2 && value_to == 3)
-      $("#conv_sol_t").focus().val(parseFloat(kelvin_to_fahrenheit($("#t_din").val())).toFixed(2));
+      $("#conv_sol_t").focus().val(kelvin_to_fahrenheit(v));
     else if (value_from == 3 && value_to == 1)
-      $("#conv_sol_t").focus().val((fahrenheit_to_kelvin($("#t_din").val())).toFixed(2));
+      $("#conv_sol_t").focus().val(fahrenheit_to_kelvin(v));
     else if (value_from == 3 && value_to == 2)
-      $("#conv_sol_t").focus().val(parseFloat(fahrenheit_to_celsius($("#t_din").val())).toFixed(2));
+      $("#conv_sol_t").focus().val(fahrenheit_to_celsius(v));
     else if (value_from == 3 && value_to == 3)
-      $("#conv_sol_t").focus().val(parseFloat(($("#t_din").val())).toFixed(2));
+      $("#conv_sol_t").focus().val(v);
   }
 }
